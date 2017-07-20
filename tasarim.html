@@ -1,0 +1,2312 @@
+
+<html>
+<head>
+
+ 
+	
+    <script rel="javascript" type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script rel="javascript" type="text/javascript" src="js/interact/interact.js"></script>
+    <script rel="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/texteditor.css"/>
+
+    <style type="text/css">
+
+
+
+        /*@media screen and (min-width:0px){*/
+        /*#top-container{*/
+        /*border-radius: 25px;*/
+        /*width: 400px;*/
+        /*height: 500px;*/
+        /*border: 4px solid gainsboro;*/
+        /*}*/
+        /*#toolbar{*/
+        /*border-top-right-radius: 10px;*/
+        /*border-bottom-right-radius: 10px;*/
+        /*border-right: 4px solid gainsboro;*/
+        /*width: 100px;*/
+        /*height: 500px;*/
+        /*float: left;*/
+        /*}*/
+        /*#main-container{*/
+        /*width: 500px;*/
+        /*height: 500px;*/
+        /*float: left;*/
+        /*}*/
+        /*}*/
+
+        /*@media screen and (min-width:1400px){*/
+        #ustcontainermenu{
+            width: 1370px;
+            height: 100px;
+            border:1px solid black;
+            border-radius: 25px;
+            position:relative;
+        }
+        #top-container{
+
+            margin-left:10px;
+
+            width: 1470px;
+            height: 548px;
+            border: 4px solid gainsboro;
+            background-color: #0f0f0f;
+
+        }
+        #toolbar{
+
+            border: 4px solid gainsboro;
+
+            width: 200px;
+            height: 540px;
+            float: left;
+            background-color: gray;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+
+            background: rgb(255,255,255);
+            background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+
+        }
+        #main-container{
+            width: 960px;
+            height: 540px;
+            float: left;
+            background-color: white;
+            position: relative;
+            background-size:100% 100%;
+
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+        }
+
+        #properties{
+            width: 302px;
+            height: 540px;
+
+
+            border: 4px solid gainsboro;
+            float: left;
+            background-color: gray;
+
+
+
+            background: rgb(255,255,255);
+            background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+        }
+
+
+        /*}*/
+        .ust-table{
+            position: relative;
+            float: left;
+            height: auto;
+            width: 70%;
+            max-height:300px;
+            cursor: pointer;
+            margin-bottom: 50px;
+        }
+        .table-baslik{
+
+        }
+        .table-icerik{
+            position: relative;
+            height: auto;
+            max-height:300px;
+            overflow:scroll;
+            cursor: pointer;
+        }
+
+        /*.modal .modal-dialog { width: 80%; }*/
+        .selected {
+            background-color: brown;
+            color: #FFF;
+        }
+        .table-icerik table{
+            border : 1px solid gray;
+        }
+        .table-icerik th{
+            font-size: 15px;
+        }
+        .table-icerik tr{
+            font-size: 15px;
+        }
+
+
+        .animate
+        {
+            transition: all 0.1s;
+            -webkit-transition: all 0.1s;
+        }
+
+        .action-button
+        {
+            width:120px;
+            height:45px;
+            position: relative;
+            padding-top:10px;
+            margin: 5px 10px 10px 0px;
+            margin-left:15px;
+            float: left;
+            border-radius: 10px;
+            font-family: 'Pacifico', cursive;
+            font-size: 15px;
+            color: #FFF;
+            text-decoration: none;
+            cursor:pointer;
+        }
+
+        .blue
+        {
+            background-color: #3498DB;
+            border-bottom: 5px solid #2980B9;
+            text-shadow: 0px -2px #2980B9;
+        }
+
+        .red
+        {
+            background-color: #E74C3C;
+            border-bottom: 5px solid #BD3E31;
+            text-shadow: 0px -2px #BD3E31;
+        }
+
+        .green
+        {
+            background-color: #82BF56;
+            border-bottom: 5px solid #669644;
+            text-shadow: 0px -2px #669644;
+        }
+
+        .yellow
+        {
+            background-color: #F2CF66;
+            border-bottom: 5px solid #D1B358;
+            text-shadow: 0px -2px #D1B358;
+        }
+
+        .purple
+        {
+            background-color: #8835c4;
+            border-bottom: 5px solid #b56fe8;
+            text-shadow: 0px -2px #b56fe8;
+        }
+        .action-button:active
+        {
+            transform: translate(0px,5px);
+            -webkit-transform: translate(0px,5px);
+            border-bottom: 1px solid;
+        }
+
+
+
+
+
+        .filter-button
+        {
+            font-size: 18px;
+            border: 1px solid #42B32F;
+            border-radius: 5px;
+            text-align: center;
+            color: #42B32F;
+            margin-bottom: 30px;
+
+        }
+        .filter-button:hover
+        {
+            font-size: 18px;
+            border: 1px solid #42B32F;
+            border-radius: 5px;
+            text-align: center;
+            color: #ffffff;
+            background-color: #42B32F;
+
+        }
+        .btn-default:active .filter-button:active
+        {
+            background-color: #42B32F;
+            color: white;
+
+        }
+
+        .gallery_product{width: 145px;
+            height: 125px;
+            float:left;
+            cursor:pointer;
+            margin:5px;
+            border:1px black solid;
+            border-radius:15px;
+        }
+        .galleryimgsa
+        {
+            border-top-left-radius:15px;
+            border-top-right-radius:15px;
+            width:100%;
+            height:80%;
+        }
+        .gallerylabelsa
+        {
+            width:100%;
+            height:20%;
+            overflow:auto;
+            border-bottom-left-radius:15px;
+            border-bottom-right-radius:15px;
+
+        }
+
+
+
+
+
+    </style>
+    <script type="text/javascript">
+
+        //Tasarım alanında hangi elemente tıklandığını tutan değişken.
+        var tiklananitem;
+        var tiklananslaytitem;
+        var gecicislaytobject;
+        var gecicivideoobject;
+
+
+        var resimObject;
+        var textObject;
+        var slaytObject;
+        var videoObject;
+        var zindexkatman=0;
+        var slaytDizisi=[];
+        var container;
+        var ekranW=960;
+        var ekranH=540;
+        var ekranDizisi=[];
+        $(document).ready(function () {
+            
+               container= document.getElementById("main-container");
+            var backObject=new backView("","960","540");
+            ekranDizisi.push(backObject)
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+        if ($(".filter-button").removeClass("active")) {
+            $(this).removeClass("active");
+        }
+        $(this).addClass("active");
+
+
+        //Buralar biraz karışık
+        interact('.resize-drag')
+            .draggable({
+                onmove: window.dragMoveListener,
+                restrict: {
+                    restriction: "parent",
+                    endOnly: true,
+                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                }
+            })
+            .resizable({
+                preserveAspectRatio: false,
+                edges: { left: false, right: true, bottom: true, top: false }
+            })
+
+            .on('resizemove', function (event) {
+                var target = event.target,
+                    x = (parseFloat(target.getAttribute('data-x')) || 0),
+                    y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+                x += event.deltaRect.left;
+                y += event.deltaRect.top;
+
+
+                var targetObject=idDenDiziObjesiniGetir(event.target.id);
+                var degisimoraniW=x+event.rect.width;
+                var degisimoraniH=y+event.rect.height;
+                var turu=targetObject.id.split("-")[0];
+                if (turu == "slayt" || turu == "video" || turu=="text" || turu=="saat") {
+                    if (!(degisimoraniW < ekranW && degisimoraniH < ekranH)){
+                        //Hızlı Kullanım sorunu çözmek için
+                        if (degisimoraniH > ekranH) {
+                            targetObject.height = ekranH - y - 1;
+                            target.style.height = ekranH - y - 1 + 'px';
+                        }
+                        if (degisimoraniW > ekranW) {
+                            targetObject.width = ekranW - x - 1;
+                            target.style.width = ekranW - x - 1 + 'px';
+                        }
+
+                    } else {
+                        ekranResizeYap();
+                    }
+                } else if (turu == "resim") {
+                    if (degisimoraniW < (ekranW - 480) && degisimoraniH < ekranH) {
+                        ekranResizeYap();
+                    }
+                    else {
+                        if (degisimoraniH > ekranH) {
+                            targetObject.height = ekranH - y - 1;
+                            target.style.height = ekranH - y - 1 + 'px';
+                        }
+                        if (degisimoraniW > 480) {
+                            targetObject.width = (ekranW - 480) - x - 1;
+                            target.style.width = (ekranW - 480) - x - 1 + 'px';
+                        }
+
+                    }
+                }
+                function ekranResizeYap() {
+                    if (event.rect.width < 51) {
+                        target.style.width = 50 + 'px';
+                        targetObject.width = 50;
+                    }
+                    else if (event.rect.width > ekranW) {
+                        target.style.width = ekranW + 'px';
+                        targetObject.width = ekranW;
+                    }
+                    else {
+                        target.style.width = event.rect.width + 'px';
+                        targetObject.width = event.rect.width;
+                    }
+                    if (event.rect.height < 51) {
+                        target.style.height = 50 + 'px';
+                        targetObject.height = 50;
+                    }
+                    else if (event.rect.height > ekranH) {
+                        target.style.height = ekranH + 'px';
+                        targetObject.height = ekranH;
+                    }
+                    else {
+                        target.style.height = event.rect.height + 'px';
+                        targetObject.height = event.rect.height;
+                    }
+
+                    // translate when resizing from top or left edges
+
+                    target.style.webkitTransform = target.style.transform =
+                        'translate(' + x + 'px,' + y + 'px)';
+
+                    target.setAttribute('data-x', x);
+
+                    target.setAttribute('data-y', y);
+                    targetObject.konumX = x;
+                    targetObject.konumY = y;
+                }
+
+            });
+        //Buralar biraz karışık
+        interact('.draggable')
+            .draggable({
+                // enable inertial throwing
+                inertia: true,
+                // keep the element within the area of it's parent
+                restrict: {
+                    restriction: "parent",
+                    endOnly: true,
+                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                },
+                // enable autoScroll
+                autoScroll: true,
+
+                // call this function on every dragmove event
+                onmove: dragMoveListener,
+                // call this function on every dragend event
+                onend: function (event) {
+                    var textEl = event.target.querySelector('p');
+
+                    textEl && (textEl.textContent =
+                        'moved a distance of '
+                        + (Math.sqrt(event.dx * event.dx +
+                            event.dy * event.dy)|0) + 'px');
+                }
+            });
+
+        function dragMoveListener (event) {
+            var target = event.target;
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+            var targetObject=idDenDiziObjesiniGetir(event.target.id);
+            //  console.log(targetObject);
+            targetObject.konumX=x;
+            targetObject.konumY=y;
+
+
+            // translate the element
+            target.style.webkitTransform =
+                target.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+        }
+
+        // this is used later in the resizing and gesture demos
+        window.dragMoveListener = dragMoveListener;
+        var xp=0, yp=0;
+        var itemname;
+
+        //Eklenen textlerin Her birinin benzersiz id olması için, id sayacının tutulduğu değişken.
+        var itemtextid=1;
+
+
+        //img elementini oluşturmak için yazılmış deneme metodu.
+        function elementOlustur()
+        {
+            var resimE=document.createElement('img');
+            resimE.style.width="200px";
+            resimE.style.height="100px";
+            resimE.style.border="1px solid black";
+            resimE.textContent="Resim Seçmek İçin Çift Tıklayın..!!";
+            resimE.setAttribute('data-x',"-303");
+            resimE.setAttribute('data-y',"332");
+            resimE.style.transform="translate(-306px, 347px)";
+            resimE.className="resize-drag";
+            resimE.style.position="absolute";
+            resimE.id="resim-giris"+itemresimid;
+            container.appendChild(resimE);
+            resimE.ondblclick=function() { resimModal(this.id); };
+            console.log(itemresimid);
+            itemresimid++;
+        }
+
+        //Deneme metodu
+        function asd() {
+            var item=document.getElementById("deneme-text")
+            var x=-339.99999609573064,y=470.00000183788757;
+            console.log(x);
+            console.log(y);
+
+            // translate the element
+            item.style.webkitTransform =
+                item.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            item.setAttribute('data-x', x);
+            item.setAttribute('data-y', y);
+
+        }
+
+        //Deneme metodu
+        function tiklandi(item) {
+            var container = document.getElementById("main-container");
+            container.removeChild(item);
+        }
+
+        //resim Modal'ini açmaya yarayan metod.
+        function resimModal(id) {
+            tiklananitem=id;
+            var resim=document.getElementById(id);
+            secilenResimId=null;
+            $('#localimagecontent').html('');
+            $('#localimagecontent1').html('');
+            $('#localimagecontent1z').html('');
+            $('#newimagea').addClass("active");
+
+            $('#localimagea').removeClass("active");
+
+            $('#newimagea').click();
+            console.log(idDenDiziObjesiniGetir(id));
+            $('#resimModal').modal({ backdrop: 'static',
+                keyboard: false})
+            $('#resimModal').modal('show');
+        }
+
+        function tasarimModalIcerikHTMLDegistir()
+        {
+            var backObject=idDenDiziObjesiniGetir("arkaplan-");
+            var tasarimicerik=document.getElementById("tasarimIcerik");
+            tasarimicerik.innerHTML="";
+            HTML="<label>Tasarım Adı</label>";
+            HTML+="<input value='"+idDenDiziObjesiniGetir("arkaplan-").ad+"' class='form-control' id='tasarim-adi-giris' type='text' placeholder='Tasarım Adını giriniz' style='width: auto'>";
+            HTML+="<img  id='tasarimicerikbgimage' style='width:200px' height='200px' src="+backObject.background+"></img><br>";
+            HTML+="<button id='arka-resim-kaldir1' onclick='arkaPlanResmiKaldir()' type='button' class='btn btn-default' >Kaldır veya Değiştir</button>";
+            tasarimicerik.innerHTML=HTML;
+        }
+        //tasarim ayarlari Modal'ini açmaya yarayan metod.
+        function tasarimAyarlariModal() {
+            tasarimresimdegiskeni=0;
+            secilenResimId=null;
+            var backObject=idDenDiziObjesiniGetir("arkaplan-");
+            if(backObject.background!=""){
+                tasarimModalIcerikHTMLDegistir();
+            }
+            document.getElementById("tasarim-adi-giris").value=backObject.ad;
+            $('#newimageaz').click();
+            $('#tasarimAyarlariModal').modal({ backdrop: 'static',
+                keyboard: false})
+            $('#tasarimAyarlariModal').modal('show');
+        }
+
+        function arkaPlanResmiKaldir()
+        {
+            var backobject=idDenDiziObjesiniGetir("arkaplan-");
+            backobject.background="";
+            backobject.localimage=null;
+            var output=document.getElementById("main-container");
+            output.style.backgroundImage="";
+            HTML=	"<label>Tasarım Adı</label>"+
+                "<input class='form-control' value='"+idDenDiziObjesiniGetir("arkaplan-").ad+"' id='tasarim-adi-giris' type='text' placeholder='Tasarım Adını giriniz' style='width: auto'>"+
+
+                "<label>Arkaplan Resmi</label><br><br>"+
+
+                
+                "<div class='tab-content'>"+
+                " <div class='tab-pane active' id='newimagez'> <input id='ilk-bg-resim' type='file' accept='image/*' onchange='imageEventTut(event)'></div>"+
+                "<div style='max-height:400px; max-width:495px;overflow:auto;' class='tab-pane' id='localimagez'> "+
+
+                " <div id='localimagecontent1z'>"+
+
+                "</div>"+
+                " </div>"+
+
+                "</div>";
+            var tasarimicerik=document.getElementById("tasarimIcerik");
+            tasarimIcerik.innerHTML=HTML;
+            $('#newimageaz').click();
+        }
+
+        //arkaplan resmi girilirken seçilmiş mi seçilmemişmi, event.target hatası için
+        var tasarimresimdegiskeni=0;
+        function tasarimAyarlariModalKaydet()
+        {
+            var rdbtnvalue=$("input[name=rsmradiosa]:checked").val();
+            console.log(rdbtnvalue);
+            var value=document.getElementById("tasarim-adi-giris").value;
+            var backobject=idDenDiziObjesiniGetir("arkaplan-");
+            backobject.ad=value;
+            if(rdbtnvalue==0 || rdbtnvalue==null){
+                if(tasarimresimdegiskeni!=0)
+                    tasarimarkaplanresimyukle(imageevent);
+                backobject.localimage=null;
+            }
+            else if(rdbtnvalue==1 || rdbtnvalue==2)
+            {
+                var base64koduS;
+                if(secilenResimId!=null){
+                    for(var j=0;j<mySresimArray.length;j++)
+                    {
+                        if(mySresimArray[j].resimId==secilenResimId)
+                            base64koduS=mySresimArray[j].resimBase64;
+                    }
+                    var output=document.getElementById("main-container");
+                    console.log(output);
+                    output.style.backgroundImage="url('"+base64koduS+"')";
+                    backobject.background=base64koduS;
+                    backobject.localimage=secilenResimId;
+
+                }
+            }
+            $('#tasarimAyarlariModal').modal('hide');
+            console.log(ekranDizisi);
+        }
+        function tasarimarkaplanresimyukle(event)
+        {
+
+            var uzunluk=ekranDizisi.length;
+            var reader = new FileReader();
+            var img=new Image();
+            reader.onload = function(){
+                var output=document.getElementById("main-container");
+                output.style.backgroundImage="url('"+reader.result+"')";
+                var backobject=idDenDiziObjesiniGetir("arkaplan-");
+                backobject.background=reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+
+
+        }
+
+
+        function saatModal(id) {
+            tiklananitem=id;
+            console.log(tiklananitem);
+            var saatobject=idDenDiziObjesiniGetir(tiklananitem);
+            var tarihchkbx=document.getElementById('sttarih');
+            var saniyechkbx=document.getElementById('stsaniye');
+            tarihchkbx.checked=saatobject.tarih;
+            saniyechkbx.checked=saatobject.saniye;
+
+            $('#saatModal').modal({ backdrop: 'static',
+                keyboard: false})
+            $('#saatModal').modal('show');
+
+            return false;
+        }
+
+
+        //text modalini açmaya yarayan metod.
+        function textModalAc(id) {
+            tiklananitem=id;
+            document.getElementById('textmodalicerik').innerHTML="";
+            var textobject=idDenDiziObjesiniGetir(tiklananitem);
+            HTML="<label>İçerik</label>" +
+                "<img action='' id='myForm'>" +
+                "<input onclick='setToBold()' class='myButton' type='button' value='B'/>" +
+                "<input onclick='setToItalic()' style='font-style:italic;margin-left:5px;' class='myButton' type='button' value='i'/>" +
+                "<input onclick='setToUnderline()' style='text-decoration:underline;margin-left:5px;' class='myButton' type='button' value='u'/>" +
+                "<input onclick='setToFontColor()' class='myButton' style='font-weight:normal;margin-left:5px;' type='button' value='Yazı Rengi'/>" +
+                "<select  id='color' style='margin-left: 5px;' name='select'>"+
+                "<option value='black' style='background-color:black'>black</option>"+
+                "<option value='red' style='background-color:red'>red</option>"+
+                "<option value='green' style='background-color:green'>green</option>"+
+                "<option value='blue' style='background-color:blue'>blue</option>"+
+                "<option value='yellow' style='background-color:yellow'>yellow</option>"+
+                "<option value='gray' style='background-color:gray'>gray</option>"+
+                "<option value='pink' style='background-color:pink'>pink</option>"+
+                "</select>" +
+                "<input onclick='setToBoyut()'  class='myButton' style='font-weight:normal; margin-left:5px;' type='button' value='Yazı Boyutu'/>" +
+                "<select id='boyut' style='margin-left:5px;' name='select'>"+
+                "<option value='10px' style='font-size:10px'>10</option>"+
+                "<option value='12px' style='font-size:12px'>12</option>"+
+                "<option value='14px' style='font-size:14px'>14</option>"+
+                "<option value='18px' style='font-size:18px'>18</option>"+
+                "<option value='20px' style='font-size:20px'>20</option>"+
+                "<option value='26px' style='font-size:26px'>26</option>"+
+                "<option value='36px' style='font-size:36px'>36</option>"+
+                "<option value='48px' style='font-size:48px'>48</option>"+
+                "<option value='72px' style='font-size:72px'>72</option>"+
+                "</select>"+
+                "<input onclick='setToFontFamily()'  class='myButton' style='font-weight:normal; margin-left:5px;' type='button' value='Yazı Ailesi'/>" +
+                "<select id='FontFamily' style='margin-left:5px;' name='select'>"+
+                "<option style='font-family:ComicSansMS' value='Comic Sans MS'>Comic Sans MS</option>"+
+                "<option style='font-family:Arial' value='Arial'>Arial</option>"+
+                "<option style='font-family:TimesNewRoman' value='Times New Roman'>Times New Roman</option>"+
+                "<option style='font-family:Verdana' value='Verdana'>Verdana</option>"+
+                "<option style='font-family:Impact' value='Impact'>Impact</option>"+
+                "<option style='font-family:Georgia' value='Georgia'>Georgia</option>"+
+                "<option style='font-family:TwCenMT' value='Tw Cen MT'>Tw Cen MT</option>"+
+                "<option style='font-family:AgencyFB' value='Agency FB'>Agency FB</option>"+
+                "</select>" +
+                //   "<input class='myButton' style='font-weight:normal;margin-left:5px;' type='file' accept='image/*' onchange='openFile(event)'/>"+// "<img id='output'/>"+
+                "<center><div id='slaytitemtexticerik' class='editable' style='overflow:auto; cursor:text; width:"+textobject.width+"; height:"+textobject.height+";' contenteditable='true'>"+textobject.texticerik+"</div></center>" +
+                "</form> ";
+            document.getElementById('textmodalicerik').innerHTML=HTML;
+            $('#textModal').modal({ backdrop: 'static',
+                keyboard: false})
+            $('#textModal').modal('show');
+            return false;
+        }
+
+        //Eklenen resimlerin Her birinin benzersiz id olması için, id sayacının tutulduğu değişken.
+        var itemresimid=1;
+
+        //Tasarım alanında istenilen kordinata istenilen boyutta resim elementini oluşturan fonksiyon.
+        function resimgetir() {
+
+            var resimE=document.createElement('img');
+            resimE.style.width="200px";
+            resimE.style.height="100px";
+            resimE.setAttribute('data-x', "0");
+            resimE.setAttribute('data-y', "0");
+            resimE.style.border="1px solid black";
+            resimE.textContent="Resim Seçmek İçin Çift Tıklayın..!!";
+            resimE.className="resize-drag";
+            resimE.style.backgroundColor="green        ";
+            resimE.style.position="absolute";
+            resimE.id="resim-giris"+itemresimid;
+            resimE.style.transform = "translate(0px, 0px)";
+            container.appendChild(resimE);
+            resimE.ondblclick=function() { resimModal(this.id); };
+            console.log(itemresimid);
+
+            resimObject=new imageView("resim-giris"+itemresimid,"0","0");
+            resimObject.base64code="";
+            ekranDizisi.push(resimObject);
+            itemresimid++;
+        }
+
+        //Tasarım alanında istenilen kordinata istenilen boyutta yazı elementini oluşturan fonksiyon.
+        function yazigetir() {
+
+            var z=document.createElement('div');
+            z.style.width="200px";
+            z.style.height="100px";
+            z.style.transform="translate(0px,0px)";
+            z.setAttribute('data-x', "0");
+            z.setAttribute('data-y', "0");
+            z.style.position="absolute";
+            z.className="resize-drag";
+            z.style.textAlign="left";
+            z.style.overflow="hidden";
+            z.style.border="1px solid black";
+            z.contentEditable="true";
+            z.id="text-giris"+ itemtextid;
+
+            container.appendChild(z);
+            z.ondblclick=function() { textModalAc(this.id); };
+            $('#text-giris'+itemtextid).attr("placeholder","Bir şeyler yazmak için çift tıkla!!");
+            // z.ondblclick=function() { asdd(this.id); };
+            //    container.innerHTML += HTML;
+
+            textObject=new textView("text-giris"+itemtextid,null,"0","0");
+            textObject.konumX="0px";
+            textObject.konumY="0px";
+            ekranDizisi.push(textObject);
+            //   ekranDizisi[1].slaytdizisi.push(textobject);
+            itemtextid++;
+            console.log(ekranDizisi);
+        }
+        //Eklenen slaytların Her birinin benzersiz id olması için, id sayacının tutulduğu değişken.
+        var itemslaytid=1;
+        //Video ekleme parametreleri ?autoplay=1&loop=1&playlist=VIDEO_ID
+        var itemvideoid=1;
+        function videogetir() {
+            var video=document.createElement('div');
+            video.style.width="200px";
+            video.style.height="100px";
+            video.style.transform="translate(0px,0px)";
+            video.setAttribute('data-x', "0");
+            video.setAttribute('data-y', "0");
+            video.style.position="absolute";
+            video.className="resize-drag";
+            video.style.border="1px solid black";
+            video.id="video-giris"+ itemvideoid;
+//            var videoiframe=document.createElement('iframe')
+//            videoiframe.style.width="100%";
+//            videoiframe.style.height="100%";
+//            videoiframe.src="";
+//            video.appendChild(videoiframe);
+            container.appendChild(video);
+            video.ondblclick=function() { videoModal(this.id); };
+
+            videoObject=new videoView("video-giris" + itemvideoid,"0","0");
+            videoObject.position="absolute";
+            ekranDizisi.push(videoObject);
+
+            itemvideoid++;
+        }
+        var itemsaatid=1;
+
+        function saatgetir() {
+            if(tekElementKontrolu("saat")){
+                var saat=document.createElement('div');
+                saat.style.width="200px";
+                saat.style.height="100px";
+                saat.style.transform="translate(0px,0px)";
+                saat.setAttribute('data-x', "0");
+                saat.setAttribute('data-y', "0");
+                saat.style.position="absolute";
+                saat.className="resize-drag";
+                saat.style.border="1px solid black";
+                saat.id="saat-giris"+ itemsaatid;
+//            var videoiframe=document.createElement('iframe')
+//            videoiframe.style.width="100%";
+//            videoiframe.style.height="100%";
+//            videoiframe.src="";
+//            video.appendChild(videoiframe);
+                container.appendChild(saat);
+                saat.ondblclick=function() { saatModal(this.id); };
+
+                saatObject=new saatView("saat-giris" + itemsaatid,"0","0");
+                saatObject.position="absolute";
+                ekranDizisi.push(saatObject);
+
+                itemsaatid++;
+            }
+        }
+        //Tasarım alanında istenilen kordinata istenilen boyutta slayt elementini oluşturan fonksiyon.
+        function slaytgetir() {
+            var slayt = document.createElement('div');
+            slayt.style.width = "200px";
+            slayt.style.height = "100px";
+            slayt.style.border = "1px solid black";
+            slayt.textContent = "Slaytı düzenlemek için Çift Tıklayın..!!";
+            slayt.setAttribute('data-x', "0");
+            slayt.setAttribute('data-y', "0");
+            slayt.style.transform = "translate(0px, 0px)";
+            slayt.className = "resize-drag";
+            slayt.style.position ="absolute";
+            slayt.style.zIndex=zindexkatman;
+            slayt.id = "slayt-giris" + itemslaytid;
+            container.appendChild(slayt);
+            slayt.ondblclick=function() { slaytModal(this.id); };
+
+            slaytObject=new slaytView("slayt-giris" + itemslaytid);
+            slaytObject.konumX="0";
+            slaytObject.konumY="0";
+            slaytObject.height="100";
+            slaytObject.width="200";
+            slaytObject.zindex=zindexkatman;
+            slaytObject.position="absolute";
+            slaytObject.slaytdizisi=[];
+            ekranDizisi.push(slaytObject);
+
+            itemslaytid++;
+
+
+            //İstenilen yere spawn etme.
+//            console.log(slaytDizisi);
+//            var slayt1 = document.createElement('div');
+//            slayt1.style.width =slaytobject.width;
+//            slayt1.style.height =slaytobject.height;
+//            slayt1.style.border = "1px solid black";
+//            slayt1.textContent = "Slaytı düzenlemek için Çift Tıklayın..!!";
+//            slayt1.setAttribute('data-x',slaytobject.konumX);
+//            slayt1.setAttribute('data-y',slaytobject.konumY);
+//            slayt1.style.transform = "translate("+slaytobject.konumX+"px,"+slaytobject.konumY+"px)";
+//            slayt1.className = "resize-drag";
+//            slayt1.style.position =slaytobject.position;
+//            slayt1.id = "slayt-giris" + itemslaytid;
+//            container.appendChild(slayt1);
+            zindexkatman++;
+
+        }
+
+        function videoModal(id) {
+            tiklananitem=id;
+            gecicivideoobject=geciciObjectGetir(tiklananitem);
+
+            var youtubeonizleme=document.getElementById("youtube-onizleme");
+            youtubeonizleme.innerHTML="";
+            var youtubeurlgiris=document.getElementById("youtube-url-giris");
+            youtubeurlgiris.value="";
+            if(gecicivideoobject.src!=null){
+                youtubeUrlOnizleme(1,gecicivideoobject.src);
+                youtubeurlgiris.value=gecicivideoobject.src;
+            }
+
+            $('#videoModal').modal({ backdrop: 'static',
+                keyboard: false}).add('show');
+            // $('#videoModal').modal('show');
+        }
+        function geciciObjectGetir(id) {
+            var diziuzunluk = ekranDizisi.length;
+
+            //console.log(gecicislaytobject);
+            for(var p = 0; p<diziuzunluk;p++){
+                if(tiklananitem== ekranDizisi[p].id)
+                {
+                    return JSON.parse(JSON.stringify(ekranDizisi[p]));
+                }
+            }
+        }
+        //Slayt componentine çift tıklanıldığında modal'i açmaya yaran fonksiyon
+        function slaytModal(id) {
+            //modal açıldığında tablodan seçilen item bağlılığını kaldırmak için.
+            tiklananslaytitem="";
+            tiklananitem=id;
+            var slayt=document.getElementById(id);
+            gecicislaytobject=geciciObjectGetir(tiklananitem);
+            secilenResimId=null;
+            oncekiDurum=false;
+            slaytModalTableIcerik();
+            $('#localimagecontent').html('');
+            $('#localimagecontent1').html('');
+            document.getElementById('textmodalicerik').innerHTML="";
+            var ozellikSlaytDiv=document.getElementById("slaytElementOzellikleriIcerik");
+            ozellikSlaytDiv.innerHTML="";
+            var ozellikustDiv=document.getElementById("slaytElementOzellikleri");
+            ozellikustDiv.style.display="none";
+            $('#slaytModal').modal({ backdrop: 'static',
+                keyboard: false}).add('show');
+
+        }
+        function slaytElementGecisSuresi(val) {
+            console.log("geldi");
+            var slaytobject=idDenSlaytObjesiGetir(tiklananslaytitem);
+            console.log(slaytobject+"asdasd"+val);
+            slaytobject.gecis_suresi=val;
+        }
+        function slaytModalTableIcerik() {
+            var table = document.getElementById("icerikTable").getElementsByTagName('tbody')[0];
+            table.innerHTML = "";
+            //   var ekrandakiSuresi =  tiklananitem.slaytdizisi.gecis_suresi;
+
+
+            diziuzunluk=ekranDizisi.length;
+            var slaytdizisiuzunluk;
+            if(gecicislaytobject!="")
+                slaytdizisiuzunluk = gecicislaytobject.slaytdizisi.length;
+            else
+                slaytdizisiuzunluk=0;
+            for (var j = 0;j<slaytdizisiuzunluk;j++)
+            {
+                var iddegiskeni;
+
+                var satirSayisi = table.rows.length;
+                var sonSatir = table.rows[satirSayisi - 1];
+
+
+                if (satirSayisi == 0)
+                    iddegiskeni = 1;
+                else {
+
+                    iddegiskeni = sonSatir.getElementsByTagName('td')[0].innerHTML;
+                    iddegiskeni++;
+                }
+                var row = table.insertRow(-1);
+                var id = row.insertCell(0);
+                var benzersizad=row.insertCell(1);
+                var elementAd = row.insertCell(2);
+                var ekrandakiSuresi = row.insertCell(3);
+                id.innerHTML = iddegiskeni;
+                elementAd.innerHTML = "elementadi";
+                if(gecicislaytobject.slaytdizisi[j].id.split("-")[0]=="video")
+                {
+                    ekrandakiSuresi.innerHTML="-";
+                }
+                else{
+                    ekrandakiSuresi.innerHTML = "<input type='number'  onchange='slaytElementGecisSuresi(this.value)' value='"+gecicislaytobject.slaytdizisi[j].gecis_suresi+"'>";
+                }
+                selected = table.getElementsByClassName('selected');
+                table.onclick = highlight;
+                benzersizad.innerHTML=gecicislaytobject.slaytdizisi[j].id;
+                //  ekrandakiSuresi.value = ekranDizisi[i].slaytdizisi[i].gecis_suresi.value;
+                // ekranDizisi[i].slaytdizisi[i].gecis_suresi
+                // gecissüresi.value = ekranDizisi[i].gecis_suresi;
+
+            }
+        }
+
+
+        function allowDrop(ev) {
+
+
+            ev.preventDefault();
+            return false;
+        }
+        //Sol tarafdaki menüden seçilen componentin, tasarım alanına sürükle bırak olayı sonucu, o componenti, tasarım alanında oluşturmaya yarayan metotları, çağıran fonksiyon.
+        function drop(ev) {
+
+            //     ev.preventDefault();
+
+            var data = ev.dataTransfer.getData("text");
+            if(data=="yazi")
+            {
+                yazigetir();
+            }
+            else if(data=="resim")
+            {
+                resimgetir();
+            }
+            else if(data=="slayt")
+            {
+                slaytgetir();
+            }
+            else if(data=="video")
+            {
+                videogetir();
+            }
+            else if(data=="saat")
+            {
+                saatgetir();
+            }
+            return true;
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            console.log(ev.dataTransfer.getData("text"));
+        }
+
+        function EkranOnizleme() {
+            window.localStorage.setItem('myArray',JSON.stringify(ekranDizisi));
+            window.open(
+                'onizleme.html',
+                '_blank' // <- This is what makes it open in a new window.
+            );
+        }
+
+        //Text modalinde selectbox'dan seçilen font familyasına göre üst taraftaki textin familyasini dinamik olarak değiştirmeye yarayan metod.
+        function textDuzelt() {
+            var selectbox = document.getElementById("font-select").value;
+            var inputtext=document.getElementById("text-giris");
+            inputtext.style.fontFamily=selectbox;
+        }
+
+        //Text modalinda yapılan işlemler sonucu kaydet butonuna basıldığında değişiklikleri uygulayan metod.
+        function textKaydet () {
+            idDenDiziObjesiniGetir(tiklananitem).texticerik=document.getElementById('slaytitemtexticerik').innerHTML;
+            document.getElementById(tiklananitem).innerHTML=document.getElementById('slaytitemtexticerik').innerHTML;;
+
+            $('#textModal').modal('hide');
+
+        }
+
+        //resim modalindan resim yüklendiği zaman önizleme için event nesnesinin tutulduğu metod.
+        var imageevent;
+        function imageEventTut(event) {
+            imageevent=event;
+            var inputid=event.target.id;
+            switch(inputid)
+            {
+                case "slaytresimIlkYukle":
+                    diveimageYukle(imageevent,0);
+                    var slaytobjesi=idDenSlaytObjesiGetir(tiklananslaytitem);
+                    slaytobjesi.localimage=null;
+                    break;
+
+                case "slaytIcerikResimDegistir":
+                    slaytobjesi.localimage=null;
+                    diveimageYukle(imageevent,1);
+                    break;
+
+                case "ilk-bg-resim":
+                    tasarimModalIcerikHTMLDegistir();
+                    tasarimModalDivYukle(imageevent);
+                    tasarimresimdegiskeni=1;
+
+                    break;
+            }
+        }
+        function tasarimModalDivYukle(event)
+        {
+
+            var reader = new FileReader();
+            var img=new Image();
+            reader.onload = function(){
+                var output = document.getElementById("tasarimicerikbgimage");
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        var base64kodu;
+        //Önizleme için
+        function diveimageYukle(event,ilkveyadegisiklik)
+        {
+            var uzunluk=ekranDizisi.length;
+            console.log(tiklananitem);
+            var reader = new FileReader();
+            var img=new Image();
+            reader.onload = function(){
+                var output = document.getElementById(tiklananitem);
+                output.src = reader.result;
+                img.src=reader.result;
+                console.log(img.width+"a"+img.height);
+                base64kodu=reader.result;
+                if(tiklananitem.split("-")[0]=="resim")
+                {
+                    for(var i=0;i<uzunluk;i++)
+                    {
+                        if(ekranDizisi[i].id==tiklananitem)
+                        {
+                            ekranDizisi[i].base64code=base64kodu;
+                            ekranDizisi[i].localimage=null;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    uzunluk=gecicislaytobject.length;
+                    var slaytObjesi=idDenSlaytObjesiGetir(tiklananslaytitem);
+                    if(ilkveyadegisiklik==1){
+                        var slaytakidiv=document.getElementById("slayttablosundansecilenresim");
+                        slaytakidiv.src=base64kodu;
+                        console.log("BOŞ");
+                    }
+                    else if(ilkveyadegisiklik==0)
+                    {
+                        var onizlemedivi=document.getElementById("önizlenecekolanresim");
+                        onizlemedivi.src=base64kodu;
+                    }
+                    slaytObjesi.base64code=base64kodu;
+                }
+            };
+            reader.readAsDataURL(event.target.files[0]);
+
+
+        }
+
+        function resimModalKaydet() {
+          
+                diveimageYukle(imageevent);
+           
+            $('#resimModal').modal('hide');
+        }
+
+
+        //Açılan Modal'da "Kaldır" butonuna tıklanıldığında elementin silinmesini sağlayan fonksiyon
+        function elementKaldir(turu) {
+            console.log(tiklananitem);
+            document.getElementById(tiklananitem).remove();
+            dizidenElementiSil();
+            $('#resimModal').modal('hide');
+            $('#textModal').modal('hide');
+            $('#videoModal').modal('hide');
+            $('#saatModal').modal('hide');
+
+        }
+
+        function dizidenElementiSil() {
+            for(var i=0;i<ekranDizisi.length;i++)
+            {
+                if (ekranDizisi[i].id == tiklananitem) {
+                    ekranDizisi.splice(i,1);
+                }
+
+//               if(ekranDizisi[i].id.substring(0,11)=="slayt-giris")
+//               {
+//                   console.log(ekranDizisi[i].id+"////"+tiklananitem);
+//                   if (ekranDizisi[i].id == tiklananitem) {
+//                       ekranDizisi.splice(i,1);
+//                   }
+//                   else {
+//                       var uzunluk = gecicislaytobject.slaytdizisi.length;
+//                       for (var j = 0; j < uzunluk; j++) {
+//                           console.log(gecicislaytobject.slaytdizisi[j].id);
+//                           if (gecicislaytobject.slaytdizisi[j].id == tiklananitem) {
+//                               console.log("evet");
+//                               gecicislaytobject.slaytdizisi.splice(j,1);
+//
+//                               break;
+//                           }
+//                       }
+//                   }
+//               }
+//               else {
+//                   if (ekranDizisi[i].id == tiklananitem) {
+//                       ekranDizisi.splice(i,1);
+//                   }
+//               }
+
+
+            }
+            console.log(ekranDizisi);
+        }
+
+        function dizidenSlaytIcerigiSil() {
+            var uzunluk = gecicislaytobject.slaytdizisi.length;
+            for (var j = 0; j < uzunluk; j++) {
+                console.log(gecicislaytobject.slaytdizisi[j].id);
+                if (gecicislaytobject.slaytdizisi[j].id == tiklananslaytitem) {
+                    console.log("evet");
+                    gecicislaytobject.slaytdizisi.splice(j,1);
+                    slaytModalTableIcerik();
+                    break;
+                }
+            }
+            var ozellikSlaytDiv=document.getElementById("slaytElementOzellikleriIcerik");
+
+            ozellikSlaytDiv.innerHTML="";
+        }
+
+        function slayttaAsagiYukari(ay){
+            var gecici;
+            var uzunluk=gecicislaytobject.slaytdizisi.length;
+            var sirasi;
+            for(var i=0;i<uzunluk;i++)
+            {
+                if(gecicislaytobject.slaytdizisi[i].id==tiklananslaytitem)
+                    sirasi=i;
+            }
+            if(gecicislaytobject.slaytdizisi.length>1)
+            {
+                if(ay==0)
+                {
+                    if(sirasi!=uzunluk-1){
+                        gecici = gecicislaytobject.slaytdizisi[sirasi];
+                        gecicislaytobject.slaytdizisi[sirasi] = gecicislaytobject.slaytdizisi[sirasi+1];
+                        gecicislaytobject.slaytdizisi[sirasi + 1] = gecici;
+                    }
+
+                }
+                else
+                {
+                    if(sirasi!=0) {
+                        gecici = gecicislaytobject.slaytdizisi[sirasi];
+                        gecicislaytobject.slaytdizisi[sirasi] = gecicislaytobject.slaytdizisi[sirasi - 1];
+                        gecicislaytobject.slaytdizisi[sirasi - 1] = gecici;
+                    }
+                }
+                slaytModalTableIcerik();
+            }
+        }
+
+        var slaytView=function(id){
+            this.id=id;
+            this.konumX;
+            this.konumY;
+            this.height;
+            this.width;
+            this.position;
+        }
+
+        function saatModalKaydet()
+        {
+            var tarihsecimi=document.getElementById('sttarih').checked;
+            var saniyesecimi=document.getElementById('stsaniye').checked;
+            var saatobjesi=idDenDiziObjesiniGetir(tiklananitem);
+            saatobjesi.saniye=saniyesecimi;
+            saatobjesi.tarih=tarihsecimi;
+            $('#saatModal').modal('hide');
+        }
+
+        //Listeden Seçilen Elementi Slayt'ın içeriğine eklemesini sağlayan method
+        var slaytItem;
+        var selected;
+        function slaytTextKaydet() {
+            var txtvalue=document.getElementById('slaytitemtexticerik1').innerHTML;
+            var slaytTextObjesi=idDenSlaytObjesiGetir(tiklananslaytitem);
+
+            slaytTextObjesi.texticerik=txtvalue;
+        }
+        function slaytModalKaydet()
+        {
+            var uzunluk=ekranDizisi.length;
+            for(var i=0;i<uzunluk;i++)
+            {
+                if(ekranDizisi[i].id==tiklananitem)
+                {
+                    ekranDizisi[i]=JSON.parse(JSON.stringify(gecicislaytobject));
+                    break;
+                }
+            }
+            $('#slaytModal').modal('hide');
+            // ekranDizisi[0].slaytdizisi = gecicislaytobject.slaytdizisi;
+        }
+        function slaytaIcerikEkle() {
+            var icerikListesi=document.getElementById("icerik-element-listesi");
+            var icerikSecilenItem=icerikListesi.value;
+            console.log(icerikSecilenItem);
+            if (icerikSecilenItem != "") {
+                var iddegiskeni;
+                var table = document.getElementById("icerikTable").getElementsByTagName('tbody')[0];
+                var satirSayisi = table.rows.length;
+                var sonSatir = table.rows[satirSayisi - 1];
+                console.log(sonSatir);
+                if (satirSayisi == 0)
+                    iddegiskeni = 1;
+                else {
+                    console.log(sonSatir);
+                    iddegiskeni = sonSatir.getElementsByTagName('td')[0].innerHTML;
+                    iddegiskeni++;
+                }
+                var row = table.insertRow(-1);
+                var id = row.insertCell(0);
+                var benzersizad=row.insertCell(1);
+                var elementAd = row.insertCell(2);
+                var ekrandakiSuresi = row.insertCell(3);
+                id.innerHTML = iddegiskeni;
+                elementAd.innerHTML = icerikSecilenItem;
+                selected = table.getElementsByClassName('selected');
+                table.onclick = highlight;
+                var slaytobject;
+                switch (icerikSecilenItem) {
+                    case "Yazı":
+                        slaytItem = "text-giris" + itemtextid;
+                        slaytobject=new textView(slaytItem,null,0,0);
+                        itemtextid++;
+                        ekrandakiSuresi.innerHTML = "<input onchange='slaytElementGecisSuresi(this.value)' type='number' value='10'>";
+                        break;
+                    case "Resim":
+                        slaytItem = "resim-giris" + itemresimid;
+                        slaytobject=new imageView(slaytItem,0,0);
+                        itemresimid++;
+                        ekrandakiSuresi.innerHTML = "<input onchange='slaytElementGecisSuresi(this.value)' type='number' value='10'>";
+                        break;
+                    case "Video":
+                        slaytItem="video-giris"+itemvideoid;
+                        slaytobject=new videoView(slaytItem,0,0);
+                        ekrandakiSuresi.innerHTML = "-";
+                        itemvideoid++;
+                        break;
+                }
+                benzersizad.innerHTML=slaytItem;//SelectBox'u seçilen elementin seçili özelliğini kaldırır,yani hiç bir şey seçilmemiş gibi olur.
+                icerikListesi.selectedIndex = -1;
+                var diziuzunluk=ekranDizisi.length;
+                slaytobject.gecis_suresi="10";
+                gecicislaytobject.slaytdizisi.push(slaytobject);
+            } else {
+                alert("Eklenecek olan içeriği seçiniz..!!");
+            }
+        }
+
+        function youtubeUrlOnizleme(durum,deger) {
+            var value;
+            if(durum==0)
+                value=document.getElementById("youtube-url-giris").value;
+            else if(durum==2)
+                value=document.getElementById("youtube-url-girisSlayt").value;
+            else
+                value=deger;
+
+            console.log(value);
+
+            value=youtubeURLAyikla(value);
+            value="https://www.youtube.com/embed/"+value+"?autoplay=1&loop=1&playlist="+value;
+            var videoonizleme;
+            if(durum==2)
+                videoonizleme =document.getElementById("youtube-onizlemeSlayt");
+            else
+                videoonizleme=document.getElementById("youtube-onizleme");
+            var iframe=document.createElement('iframe');
+            iframe.style.width="100%";
+            iframe.style.height="100%";
+            iframe.src=value;
+            videoonizleme.innerHTML="";
+            videoonizleme.appendChild(iframe);
+
+        }
+        function youtubeURLAyikla(value) {
+            return value.split("?")[1].split("=")[1];
+        }
+        function onizlemeTemizle(deger) {
+            if(deger==1){
+                var videoonizleme=document.getElementById("youtube-onizleme");
+                videoonizleme.innerHTML="";
+            }
+            else if(deger==0){
+                videoonizleme=document.getElementById("youtube-onizlemeSlayt");
+                videoonizleme.innerHTML="";
+            }
+        }
+        function VideoModalKaydet(){
+            gecicivideoobject=idDenDiziObjesiniGetir(tiklananitem);
+            gecicivideoobject.src=document.getElementById("youtube-url-giris").value;
+            console.log(tiklananitem);
+            var videoitem=document.getElementById(tiklananitem);
+            var ayikla=youtubeURLAyikla(gecicivideoobject.src);
+            var str="https://img.youtube.com/vi/"+ayikla+"/0.jpg";
+            console.log(str);
+            videoitem.style.backgroundSize="cover";
+            videoitem.style.backgroundImage="url("+str+")";
+        }
+
+        //Editor Başlangıc
+
+        var boldedText, italicText;
+
+        function setToBold() {
+
+            var sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    if(sel != "") {
+                        range = sel.getRangeAt(0);
+                        boldedText = document.createElement('b');
+                        boldedText.innerHTML = range.toString();
+
+
+                        range.deleteContents();
+                        range.insertNode(boldedText);
+
+
+                        if (range.endContainer.localName == 'b') {
+
+                            range.endContainer.outerHTML = range.endContainer.outerText;
+                            //alert(range.endContainer.outerHTML);
+                        }
+                    }
+                    console.log(range);
+
+                }
+
+            } else if (document.selection && document.selection.createRange) {
+                range = document.selection.createRange();
+                range.text = "<b>" + range.toString() + "</b>";
+            }
+        }
+
+
+        function setToItalic() {
+
+            var sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    if(sel != "") {
+                        range = sel.getRangeAt(0);
+                        boldedText = document.createElement('i');
+                        boldedText.innerHTML = range.toString();
+                        range.deleteContents();
+                        range.insertNode(boldedText);
+                        console.log(boldedText);
+                        console.log(italicText);
+
+
+                        if (range.endContainer.localName == 'i') {
+
+                            range.endContainer.outerHTML = range.endContainer.outerText;
+                            //alert(range.endContainer.outerHTML);
+
+                        }
+                    }
+                    console.log(range);
+
+
+                }
+            } else if (document.selection && document.selection.createRange) {
+                range = document.selection.createRange();
+                range.text = "<i>" + range.toString() + "</i>";
+            }
+        };
+
+
+
+        var underlineText;
+        function setToUnderline() {
+
+            var sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    if(sel != "") {
+                        range = sel.getRangeAt(0);
+                        underlineText = document.createElement('u');
+                        underlineText.innerHTML = range.toString();
+                        range.deleteContents();
+                        range.insertNode(underlineText);
+
+
+                        if (range.endContainer.localName == 'u') {
+
+                            range.endContainer.outerHTML = range.endContainer.outerText;
+
+                        }
+
+                    }
+                    console.log(range);
+                }
+            } else if (document.selection && document.selection.createRange) {
+                range = document.selection.createRange();
+                range.text = "<u>" + range.toString() + "</u>";
+            }
+        };
+
+
+
+
+        var renkText;
+
+        function setToFontColor() {
+
+            var temp;
+            var sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    if(sel != "") {
+                        range = sel.getRangeAt(0);
+                        renkText = document.createElement('span');
+                        console.log(renkText);
+                        var x = document.getElementById("color").value;
+                        // console.log(x);
+                        // boyutText.setAttribute('style', 'color:'+x+' ;');
+                        renkText.innerHTML = range.toString();
+                        //range.startContainer.style.color = x;
+
+
+                        range.deleteContents();
+                        range.insertNode(renkText);
+                        range.endContainer.firstElementChild.style.color = x;
+                        console.log(range);
+                    }
+
+                    /*  if(range.endContainer.localName == 'span'){
+
+                     var x = document.getElementById("select").value;
+                     console.log(x);
+                     renkText.setAttribute('style', 'color:'+x+' ;');
+                     range.endContainer.outerHTML = range.endContainer.outerText;
+
+                     }*/
+
+                }
+            } else if (document.selection && document.selection.createRange) {
+                range = document.selection.createRange();
+                range.text = "<span>" + range.toString() + "</span>";
+            }
+        };
+
+
+
+
+        var boyutText;
+
+        function setToBoyut() {
+
+            var temp;
+            var sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    if(sel != "") {
+                        boyutText = document.createElement('span');
+
+                        // renkText = document.getElementsByName('renkText');
+                        var x = document.getElementById("boyut").value;
+                        console.log(x);
+
+                        //renkText.setAttribute('style', 'font-size:'+x+' ;');
+                        boyutText.innerHTML = range.toString();
+                        //range.startContainer.style.color = x;
+
+
+                        range.deleteContents();
+                        range.insertNode(boyutText);
+                        //    boyutText.setAttribute('style', 'color:'+x+';');
+
+                        range.endContainer.firstElementChild.style.fontSize = x;
+
+                    }
+                    console.log(range);
+
+                    /*   if (range.endContainer.localName == 'span') {
+
+
+                     console.log(x);
+                     boyutText.setAttribute('style', 'fontSize:' + x + ' ;');
+                     range.endContainer.outerHTML = range.endContainer.outerText;
+
+                     }*/
+
+                }
+            } else if (document.selection && document.selection.createRange) {
+                range = document.selection.createRange();
+                range.text = "<span>" + range.toString() + "</span>";
+            }
+        }
+
+
+
+        var fontfamilyText;
+
+        function setToFontFamily() {
+
+            var temp;
+            var sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    if(sel != "") {
+                        range = sel.getRangeAt(0);
+                        fontfamilyText = document.createElement('span');
+                        var x = document.getElementById("FontFamily").value;
+                        console.log(x);
+                        // boyutText.setAttribute('style', 'color:'+x+' ;');
+                        fontfamilyText.innerHTML = range.toString();
+                        //range.startContainer.style.color = x;
+
+
+                        range.deleteContents();
+                        range.insertNode(fontfamilyText);
+                        range.endContainer.firstElementChild.style.fontFamily = x;
+                        console.log(range);
+                    }
+                    /*    if (range.endContainer.localName == 'span') {
+
+                     console.log(x);
+                     fontfamilyText.setAttribute('style', 'fontSize:' + x + ' ;');
+                     range.endContainer.outerHTML = range.endContainer.outerText;
+
+                     }*/
+
+                }
+            } else if (document.selection && document.selection.createRange) {
+                range = document.selection.createRange();
+                range.text = "<span>" + range.toString() + "</span>";
+            }
+        }
+
+        //text editor resim için
+        //        var openFile = function(event) {
+        //
+        //            var sel, range;
+        //            if (window.getSelection) {
+        //                sel = window.getSelection();
+        //                if (sel.rangeCount) {
+        //                    range = sel.getRangeAt(0);
+        //                    resimText = document.createElement('img');
+        //
+        //                    var input = event.target;
+        //
+        //                    var reader = new FileReader();
+        //                    reader.onload = function(){
+        //                        var dataURL = reader.result;
+        //                        var output = document.getElementById('output');
+        //                        output.src = dataURL;
+        //                       // resimText.setAttribute('src', 'url(' + output.src + ');');
+        //                        resimText.src = output.src;
+        //                        resimText.innerHTML = range.toString();
+        //                        range.deleteContents();
+        //                        range.insertNode(resimText);
+        //                    };
+        //                   reader.readAsDataURL(input.files[0]);
+        //
+        //                }
+        //            }
+        //
+        //
+        //        };
+
+
+
+
+
+
+
+
+
+
+        //Editor Sonu
+
+
+        var tiklananslaytitem;
+        var tiklananslaytitemnumber;
+        var oankirow;
+       
+        
+
+       
+        
+
+        function slaytsecilenresimKaydet()
+        {
+            console.log(tiklananslaytitem);
+            console.log(secilenResimId);
+            var base64koduS;
+            var resimObjectSA=idDenSlaytObjesiGetir(tiklananslaytitem);
+            for(var j=0;j<mySresimArray.length;j++)
+            {
+                if(mySresimArray[j].resimId==secilenResimId)
+                {
+                    resimObjectSA.base64code=mySresimArray[j].resimBase64;
+                    resimObjectSA.localimage=secilenResimId;
+                }
+            }
+
+            document.getElementById('slaytresimsecilen').disabled=true;
+        }
+
+        function slaytIcerikResimDegistir()
+        {
+            var ozellikSlaytDiv=document.getElementById("slaytElementOzellikleriIcerik");
+            var ozellikustDiv=document.getElementById("slaytElementOzellikleri");
+            HTML=                "<div class='tab-content'>"+
+                "<div class='tab-pane active' id='newimage1'> <input id='slaytresimIlkYukle' type='file' accept='image/*' onchange='imageEventTut(event)'><img id='önizlenecekolanresim' style='width:200px' height='200px'></img></div>"+
+
+                "<div style='max-height:400px; max-width:100%;overflow:auto;' class='tab-pane' id='localimage1'> "+
+
+                "<div id='localimagecontent1'>"+
+
+                "</div>"+
+                "</div>"+
+
+                "</div>";
+            ozellikSlaytDiv.innerHTML=HTML;
+            ozellikustDiv.style.display="inherit";
+        }
+        function highlight(e) {
+            //
+            tiklananslaytitem=e.target.parentNode.getElementsByTagName('td')[0];
+            if(tiklananslaytitem==null) {
+                tiklananslaytitemnumber=e.target;
+                tiklananslaytitem = e.target.parentNode.parentNode.getElementsByTagName('td')[1].innerText;
+            }
+            else {
+                tiklananslaytitem = e.target.parentNode.getElementsByTagName('td')[1].innerText;
+                if (selected[0]) {
+                    oankirow=selected[0].parentNode;
+                    oankirow.getElementsByTagName('td')[0].className='';
+                    oankirow.getElementsByTagName('td')[1].className='';
+                    oankirow.getElementsByTagName('td')[2].className='';
+                }
+                oankirow=   e.target.parentNode;
+                oankirow.getElementsByTagName('td')[0].className='selected';
+                oankirow.getElementsByTagName('td')[1].className='selected';
+                oankirow.getElementsByTagName('td')[2].className='selected';
+            }
+
+            //    e.target.parentNode.className = 'selected';
+            var ozellikustDiv=document.getElementById("slaytElementOzellikleri");
+            var ozellikSlaytDiv=document.getElementById("slaytElementOzellikleriIcerik");
+            var tiklananitemobject=idDenSlaytObjesiGetir(tiklananslaytitem);
+            var turu=tiklananitemobject.id.split('-')[0];
+            var HTML="";
+            switch (turu)
+            {
+                case "resim":
+                    if(tiklananitemobject.base64code==null || tiklananitemobject.base64code=="") {
+                        console.log("ilkresim");
+                        //  HTML=" <label>Resim Seç</label><input id='slaytresimIlkYukle' style='text-align: center;' type='file' accept='image/*' onchange='imageEventTut(event)'>";
+                        //     HTML+="<button id='slayt-item-resim-kaydet' onclick='resimModalKaydet()' type='button' class='btn btn-default' >Kaydet</button>";
+                        HTML=                          "<div class='tab-content'>"+
+                            "<div class='tab-pane active' id='newimage1'> <input id='slaytresimIlkYukle' type='file' accept='image/*' onchange='imageEventTut(event)'><img id='önizlenecekolanresim' style='width:200px' height='200px'></img></div>"+
+
+                            "<div style='max-height:400px; max-width:100%;overflow:auto;' class='tab-pane' id='localimage1'>"+
+
+                            "<div id='localimagecontent1'>"+
+
+                            "</div>"+
+                            "</div>"+
+
+                            "</div>";
+
+
+                    }
+                    else {
+                        console.log("resimvar");
+                        HTML="<img id='slayttablosundansecilenresim' style='width:200px' height='200px' src="+tiklananitemobject.base64code+"></img>";
+                        HTML+="<label style='cursor:pointer' onclick='slaytIcerikResimDegistir()'>Resmi Değiştir</label>";
+
+                    }
+                    break;
+
+
+                case "video":
+                    HTML="<label>Youtube Video URL</label>";
+                    if(tiklananitemobject.src==null)
+                        HTML+="<input id='youtube-url-girisSlayt' type='text' placeholder='Youtube Video Linki' style='width: auto'>";
+                    else
+                        HTML+="<input id='youtube-url-girisSlayt' value='"+tiklananitemobject.src+"' type='text' placeholder='Youtube Video Linki' style='width: auto'>";
+                    HTML+="<input onclick='slaytYTUrlVideoKaydet()' class='btn-success' type='button' value='Kaydet'/><br/><br/>";
+                    HTML+="<input onclick='youtubeUrlOnizleme(2)' class='btn-primary' type='button' value='Önizleme'/><br/>";
+                    HTML+="<center><div id='youtube-onizlemeSlayt' style='margin-top:5px;width: 400px; height: 300px; border: 1px black solid; border-radius: 5px;' ></div></center>";
+                    break;
+                case "text":
+                    if(tiklananitemobject.texticerik==null)
+                    {
+                        tiklananitemobject.texticerik="";
+                    }
+                    var slaytt=idDenDiziObjesiniGetir(tiklananitem);
+
+                    HTML="<label>İçerik</label>" +
+                        "<img action='' id='myForm'>" +
+                        "<input onclick='setToBold()' class='myButton' type='button' value='B'/>" +
+                        "<input onclick='setToItalic()' style='font-style:italic;margin-left:5px;' class='myButton' type='button' value='i'/>" +
+                        "<input onclick='setToUnderline()' style='text-decoration:underline;margin-left:5px;' class='myButton' type='button' value='u'/>" +
+                        "<input onclick='setToFontColor()' class='myButton' style='font-weight:normal;margin-left:5px;' type='button' value='Yazı Rengi'/>" +
+                        "<select  id='color' style='margin-left: 5px;' name='select'>"+
+                        "<option value='black' style='background-color:black'>black</option>"+
+                        "<option value='red' style='background-color:red'>red</option>"+
+                        "<option value='green' style='background-color:green'>green</option>"+
+                        "<option value='blue' style='background-color:blue'>blue</option>"+
+                        "<option value='yellow' style='background-color:yellow'>yellow</option>"+
+                        "<option value='gray' style='background-color:gray'>gray</option>"+
+                        "<option value='pink' style='background-color:pink'>pink</option>"+
+                        "</select>" +
+                        "<input onclick='setToBoyut()'  class='myButton' style='font-weight:normal; margin-left:5px;' type='button' value='Yazı Boyutu'/>" +
+                        "<select id='boyut' style='margin-left:5px;' name='select'>"+
+                        "<option value='10px' style='font-size:10px'>10</option>"+
+                        "<option value='12px' style='font-size:12px'>12</option>"+
+                        "<option value='14px' style='font-size:14px'>14</option>"+
+                        "<option value='18px' style='font-size:18px'>18</option>"+
+                        "<option value='20px' style='font-size:20px'>20</option>"+
+                        "<option value='26px' style='font-size:26px'>26</option>"+
+                        "<option value='36px' style='font-size:36px'>36</option>"+
+                        "<option value='48px' style='font-size:48px'>48</option>"+
+                        "<option value='72px' style='font-size:72px'>72</option>"+
+                        "</select>"+
+                        "<input onclick='setToFontFamily()'  class='myButton' style='font-weight:normal; margin-left:5px;' type='button' value='Yazı Ailesi'/>" +
+                        "<select id='FontFamily' style='margin-left:5px;' name='select'>"+
+                        "<option style='font-family:ComicSansMS' value='Comic Sans MS'>Comic Sans MS</option>"+
+                        "<option style='font-family:Arial' value='Arial'>Arial</option>"+
+                        "<option style='font-family:TimesNewRoman' value='Times New Roman'>Times New Roman</option>"+
+                        "<option style='font-family:Verdana' value='Verdana'>Verdana</option>"+
+                        "<option style='font-family:Impact' value='Impact'>Impact</option>"+
+                        "<option style='font-family:Georgia' value='Georgia'>Georgia</option>"+
+                        "<option style='font-family:TwCenMT' value='Tw Cen MT'>Tw Cen MT</option>"+
+                        "<option style='font-family:AgencyFB' value='Agency FB'>Agency FB</option>"+
+                        "</select>" +
+                        //   "<input class='myButton' style='font-weight:normal;margin-left:5px;' type='file' accept='image/*' onchange='openFile(event)'/>"+
+                        // "<img id='output'/>"+
+
+                        "<center><div id='slaytitemtexticerik1' class='editable' style='overflow:auto; cursor:text; width:"+slaytt.width+"; height:"+slaytt.height+";' contenteditable='true'>"+tiklananitemobject.texticerik+"</div></center>" +
+                        "<button id='slayt-text-kaydet' onclick='slaytTextKaydet()' type='button' class='btn btn-default' >Kaydet</button>"+
+                        "</form> ";
+                    break;
+
+            }
+            ozellikSlaytDiv.innerHTML=HTML;
+
+            //herhangi bir elemente tiklandiğinde element özelliklerini içeren divin display özelliğini gösterme.
+            ozellikustDiv.style.display="inherit";
+//            if(tiklananitemobject.id)
+//            ozellikSlaytDiv.innerHTML="<label>Resim Seç</label>"+
+//                "<input type='file' accept='image/*' onchange='imageEventTut(event)'>";
+        }
+
+        function slaytYTUrlVideoKaydet() {
+            var urlvalue=document.getElementById("youtube-url-girisSlayt").value;
+            var slaytobject=idDenSlaytObjesiGetir(tiklananslaytitem);
+            slaytobject.src=urlvalue;
+        }
+        function idDenSlaytObjesiGetir(id) {
+            var uzunluk=gecicislaytobject.slaytdizisi.length;
+            for(var i=0;i<uzunluk;i++)
+            {
+                if(gecicislaytobject.slaytdizisi[i].id==id)
+                {
+                    return gecicislaytobject.slaytdizisi[i];
+                }
+            }
+        }
+       
+        
+
+        function idDenDiziObjesiniGetir(id) {
+            var uzunluk=ekranDizisi.length;
+            for(var i=0;i<uzunluk;i++)
+            {
+                if(ekranDizisi[i].id==id)
+                {
+                    return ekranDizisi[i];
+                }
+            }
+        }
+
+        function tekElementKontrolu(elementturu)
+        {
+            var uzunluk=ekranDizisi.length;
+            for(var i=0;i<uzunluk;i++)
+            {
+                if(ekranDizisi[i].id.split('-')[0]==elementturu)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        var textView=function (id,yazi,konumX,konumY) {
+            this.id=id;
+            this.yazi=yazi;
+            this.konumX=konumX;
+            this.konumY=konumY;
+            this.texticerik="";
+            this.position="absolute";
+            this.height="100px";
+            this.width="200px";
+            this.gecis_suresi;
+        };
+
+        var imageView=function (id,konumX,konumY) {
+            this.id=id;
+            this.height="100";
+            this.width="200";
+            this.backgroundColor="red";
+            this.position="absolute";
+            this.konumX=konumX;
+            this.konumY=konumY;
+            this.gecis_suresi="";
+            this.base64code="";
+            this.localimage=null;
+        };
+        var videoView=function (id,konumX,konumY) {
+            this.id=id;
+            this.height="100";
+            this.width="200";
+            this.position="absolute";
+            this.konumX=konumX;
+            this.konumY=konumY;
+            this.framesrc;
+        }
+        var saatView=function(id,konumX,konumY){
+            this.id=id;
+            this.height="100";
+            this.width="200";
+            this.position="absolute";
+            this.konumX=konumX;
+            this.konumY=konumY;
+            this.tarih=true;
+            this.saat=true;
+            this.saniye=true;
+        }
+        var backView=function (ad,height,width) {
+            this.id="arkaplan-";
+            this.ad=ad;
+            this.height=height;
+            this.width=width;
+            this.background="";
+            this.backgroundcolor="";
+            this.localimage=null;
+        }
+
+        //Slayt işlemleri
+        //
+        //        var counter = 1000;
+        //        var myFunction = function(){
+        //            counter *= 2;
+        //            if(counter==16000)
+        //                counter=1000;
+        //            console.log(counter);
+        //            timeout = setTimeout(myFunction, counter);
+        //        }
+        //        var timeout = setTimeout(myFunction, counter);
+
+
+        function katmanAyarla()
+        {
+            katmanicerikTable
+            $('#katmanModal').modal({ backdrop: 'static',
+                keyboard: false}).add('show');
+        }
+    </script>
+</head>
+<body>
+
+
+<center>
+
+    <div style="margin-top: 80px; float: left;" id="top-container">
+        <div id="textModal" class="modal fade"  role="dialog" >
+            <div class="modal-dialog" style="width:80%;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Yazı Düzenleme</h4>
+                    </div>
+                    <div id='textmodalicerik' class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id='text-kaydet' onclick="textKaydet()" type="button" class="btn btn-default" >Kaydet</button>
+                        <button id='text-kaldir' onclick="elementKaldir()" type="button" class="btn btn-default" >Kaldır</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="resimModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Resim Düzenleme</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Resim Seç</label><br><br>
+
+                     
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="newimage"> <input type="file" accept="image/*" onchange="imageEventTut(event)"></div>
+                            <div style="max-height:400px; max-width:495px;overflow:auto;" class="tab-pane" id="localimage">
+
+                                <div id="localimagecontent">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id='resim-kaydetmodal' onclick="resimModalKaydet()" type="button" class="btn btn-default" >Kaydet</button>
+                        <button id='resim-kaldirmodal' onclick="elementKaldir()" type="button" class="btn btn-default" >Kaldır</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="slaytModal" class="modal fade"  role="dialog">
+            <div class="modal-dialog" style="width: 80%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Slayt Düzenleme</h4>
+                    </div><!--<label style="margin-top: 15px;">İçerik Seçin</label>--><!--<div class="modal-body">--><!--<div style="margin-bottom: 15px;float:left;width: 50%;">--><!--<select  class="form-control" id="icerik-slayt" size="5"></select>--><!--</div>--><!--<div></div>--><!--</div>--><!--<div style="clear: both"></div>-->
+                    <div class="modal-body" >
+                        <div class="ust-table">
+                            <div class="table-baslik">
+                                <label>Slayt İçeriği</label>
+
+                                <button type="button" onclick="slaytaIcerikEkle()" class="close" ><span   class="glyphicon glyphicon-plus"></span></button>
+                                <button type="button" onclick="dizidenSlaytIcerigiSil()" class="close" ><span class="glyphicon glyphicon-minus"></span></button>
+                                <button type="button" onclick="slayttaAsagiYukari(0)" class="close" ><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                <button type="button" onclick="slayttaAsagiYukari(1)" class="close" ><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            </div>
+                            <div class="table-icerik">
+                                <table id="icerikTable" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Sıra</th>
+                                        <th>Benzersiz Adı</th>
+                                        <th>Element İsmi</th>
+                                        <th>Geçiş Süresi(Sn)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <!--<tr>--><!--<td contenteditable="false">1</td>--><!--<td >Resim</td>--><!--<td ><input type="number"/></td>--><!--</tr>-->
+                                </table>
+                            </div>
+                        </div>
+                        <div style="width: 25%; float: right;">
+                            <label>İçerik Seçiniz</label>
+                            <select class="form-control" id="icerik-element-listesi" size="10">
+                                <option value="Yazı">Yazı</option>
+                                <option value="Resim">Resim</option>
+                                <option value="Video">Video</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div id="slaytElementOzellikleri" class="modal-footer" style="text-align: center; display:none;">
+                        <label onclick="" style="cursor:pointer;">ELEMENT ÖZELLİKLERİ</label>
+                        <div id="slaytElementOzellikleriIcerik" class="modal-footer" style="text-align: center;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id='slayt-kaydet' onclick="slaytModalKaydet()" type="button" class="btn btn-default" >Kaydet</button>
+                        <button id='slayt-kaldir' onclick="elementKaldir()" data-dismiss="modal" type="button" class="btn btn-default" >Kaldır</button>
+                        <button type="button" onclick="onizlemeTemizle(1)" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="videoModal" class="modal fade" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Video Düzenleme</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Youtube Video URL</label>
+                        <input id="youtube-url-giris" type="text" placeholder="Youtube Video Linkini Giriniz" style="width: auto">
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <input onclick="youtubeUrlOnizleme(0)" class="btn-primary" type="button" value="Önizleme"/>
+                        <div id="youtube-onizleme" style="margin-top:5px; margin-left:15%;width: 400px; height: 300px; border: 1px black solid; border-radius: 5px;" ></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id='video-kaydet' onclick="VideoModalKaydet()" type="button" class="btn btn-default" >Kaydet</button>
+                        <button id='video-kaldir' onclick="elementKaldir()" type="button" class="btn btn-default" >Kaldır</button>
+                        <button type="button" onclick="onizlemeTemizle(0)" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tasarimAyarlariModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Tasarım Ayarları</h4>
+                    </div>
+                    <div id="tasarimIcerik" class="modal-body">
+                        <label>Tasarım Adı</label>
+                        <input class="form-control" id="tasarim-adi-giris" type="text" placeholder="Tasarım Adını giriniz" style="width: auto">
+
+                        <label>Arkaplan Resmi</label><br><br>
+
+                       
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="newimagez"> <input id="ilk-bg-resim" type="file" accept="image/*" onchange="imageEventTut(event)"></div>
+                           
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id='resim-kaydet1' onclick="tasarimAyarlariModalKaydet()" type="button" class="btn btn-default" >Kaydet</button>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="saatModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Saat-Tarih Düzenleme</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Özelliklerini Seçiniz</label><br>
+                        <label><input id="sttarih" class="form-control" type="checkbox">Tarih Bilgisi </label><br>
+                        <label><input id="stsaniye" class="form-control" type="checkbox">Saniye Bilgisi </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button id='resim-kaydet' onclick="saatModalKaydet()" type="button" class="btn btn-default" >Kaydet</button>
+                        <button id='resim-kaldir' onclick="elementKaldir()" type="button" class="btn btn-default" >Kaldır</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div id="toolbar">
+            <a id="resim" class="action-button shadow animate green" style="margin-left:40px;margin-top:10px;"  ondragstart="drag(event)" draggable="true">
+                <span class="glyphicon glyphicon-picture"></span> Resim
+            </a>
+            <a id="yazi" class="action-button shadow animate blue" style="margin-left:40px;" ondragstart="drag(event)"  draggable="true">
+                <span class="glyphicon glyphicon-text-background"></span> Yazı
+            </a>
+            <a id="slayt" class="action-button shadow animate red" style="margin-left:40px;" ondragstart="drag(event)"  draggable="true">
+                <span class="glyphicon glyphicon glyphicon-expand"></span> Slayt
+            </a>
+            <a id="video" class="action-button shadow animate yellow" style="margin-left:40px;" ondragstart="drag(event)"  draggable="true">
+                <span class="glyphicon glyphicon-facetime-video"></span> Video
+            </a>
+            <a id="saat" class="action-button shadow animate purple" style="margin-left:40px;" ondragstart="drag(event)"  draggable="true">
+                <span class="glyphicon glyphicon glyphicon-time"></span> Saat
+            </a>
+
+
+        </div>
+        <div id="main-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+        </div>
+        <div id="properties">
+
+
+            <a id="önizleme" onclick="EkranOnizleme()" class="action-button shadow animate red"  >Önizleme</a>
+            <a id="tasarımayarlari" onclick="tasarimAyarlariModal()" class="action-button shadow animate red"  >Tasarım Ayarları</a>
+          
+          
+        </div>
+    </div>
+
+</center>
+
+</body>
+
+<style> .clock {
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.clock_Date {
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    font-size: 36px;
+    text-align: center;
+    text-shadow: 0 0 5px #00c6ff;
+}
+
+.clock_ul {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    list-style: none;
+    text-align: center;
+}
+
+.clock_ul li {
+    display: inline;
+    font-size: 10em;
+    text-align: center;
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 5px #00c6ff;
+}
+
+.clock_point {
+    position: relative;
+    -moz-animation: mymove 1s ease infinite;
+    -webkit-animation: mymove 1s ease infinite;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@-webkit-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+}
+@-moz-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+}
+
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+// Create two variable with the names of the months and days in an array
+        var monthNames = [ "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık" ];
+        var dayNames= ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"]
+
+// Create a newDate() object
+        var newDate = new Date();
+// Extract the current date from Date object
+        newDate.setDate(newDate.getDate());
+// Output the day, date, month and year
+        $('#Date').html(newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + dayNames[newDate.getDay()] + " " + newDate.getFullYear());
+
+        setInterval( function() {
+            // Create a newDate() object and extract the seconds of the current time on the visitor's
+            var seconds = new Date().getSeconds();
+            // Add a leading zero to seconds value
+            $("#sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+        },1000);
+
+        setInterval( function() {
+            // Create a newDate() object and extract the minutes of the current time on the visitor's
+            var minutes = new Date().getMinutes();
+            // Add a leading zero to the minutes value
+            $("#min").html(( minutes < 10 ? "0" : "" ) + minutes);
+        },1000);
+
+        setInterval( function() {
+            // Create a newDate() object and extract the hours of the current time on the visitor's
+            var hours = new Date().getHours();
+            // Add a leading zero to the hours value
+            $("#hours").html(( hours < 10 ? "0" : "" ) + hours);
+        }, 1000);
+    });
+</script>
+<!-- <div style="background-color:black;">
+   <div class="clock">
+       <div class="clock_Date" id="Date"></div>
+       <ul class="clock_ul">
+           <li id="hours"></li>
+           <li class="clock_point">:</li>
+           <li id="min"></li>
+           <li class="clock_point">:</li>
+           <li id="sec"></li>
+       </ul>
+   </div>
+</div> -->
+
+</html>

@@ -1,0 +1,597 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script rel="javascript" type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+    <title>Title</title>
+    <style type="text/css">
+        #container{
+            width: 1920px;
+            height: 1080px;
+            position: absolute;
+
+            top:0;
+            left:0;
+            bottom:0;
+            right: 0;
+            margin:0;
+            overflow: hidden;
+            background-size:100% 100%;
+
+
+        }
+    </style>
+</head>
+<body>
+<style> .clock {
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+
+    color: #fff;
+}
+
+.clock_Date {
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    font-size: 36px;
+    text-align: center;
+    text-shadow: 0 0 5px #00c6ff;
+}
+
+.clock_ul {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    list-style: none;
+    text-align: center;
+}
+
+.clock_ul li {
+    display: inline;
+    font-size: 10em;
+    text-align: center;
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 5px #00c6ff;
+}
+
+.clock_point {
+    position: relative;
+    -moz-animation: mymove 1s ease infinite;
+    -webkit-animation: mymove 1s ease infinite;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@-webkit-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+}
+@-moz-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+}
+
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function() {
+// Create two variable with the names of the months and days in an array
+
+
+
+
+        setInterval( function() {
+            // Create a newDate() object and extract the seconds of the current time on the visitor's
+            var seconds = new Date().getSeconds();
+            // Add a leading zero to seconds value
+            $("#sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+        },1000);
+
+        setInterval( function() {
+            // Create a newDate() object and extract the minutes of the current time on the visitor's
+            var minutes = new Date().getMinutes();
+            // Add a leading zero to the minutes value
+            $("#min").html(( minutes < 10 ? "0" : "" ) + minutes);
+        },1000);
+
+        setInterval( function() {
+            // Create a newDate() object and extract the hours of the current time on the visitor's
+            var hours = new Date().getHours();
+            // Add a leading zero to the hours value
+            $("#hours").html(( hours < 10 ? "0" : "" ) + hours);
+        }, 1000);
+    });
+</script>
+<script type="text/javascript">
+
+
+    window.onload=function () {
+        var variables=[];
+        var sliderDizisi=[];
+        var slaytcounter=-1;
+        var container=document.getElementById('container');
+        var myArray = JSON.parse(window.localStorage.getItem("myArray")); // Retrieving
+        console.log(myArray);
+        var uzunluk=myArray.length;
+        var slaytuzunluk;
+        for(var i=0;i<uzunluk;i++)
+        {
+            switch(myArray[i].id.split("-")[0])
+            {
+                case "arkaplan":
+                    arkaplanAyarla(myArray[i]);
+                    break;
+                case "text":
+                    textIcerikAyarla(myArray[i]);
+                    break;
+                case "resim":
+                    resimIcerikAyarla(myArray[i]);
+                    break;
+                case "slayt":
+                    if(myArray[i].slaytdizisi.length!=0)
+                        sliderDizisi.push(myArray[i]);
+                    break;
+                case "video":
+                    videoIcerikAyarla(myArray[i]);
+                    break;
+                case "saat":
+                    saatIcerikAyarla(myArray[i]);
+                    break;
+            }
+        }
+        slaytDivIcerikAyarla(sliderDizisi);
+        function youtubeURLAyikla(value) {
+            return value.split("?")[1].split("=")[1];
+        }
+
+        function arkaplanAyarla(backObject)
+        {
+            if(backObject.background!=null)
+            {
+                container.style.backgroundImage="url('"+backObject.background+"')";
+            }
+        }
+        function saatIcerikAyarla(saatObject)
+        {
+            var datetextsize="36px";
+            var clocktextsize="10em";
+            var saat=document.createElement('div');
+            saat.style.width=(saatObject.width*2)+'px';
+            saat.style.height=(saatObject.height*2)+'px';
+            saat.style.transform="translate(" + (saatObject.konumX * 2) + "px, " + (saatObject.konumY* 2) + "px)";
+            saat.style.position="absolute";
+            saat.id=saatObject.id;
+            container.appendChild(saat);
+            if(saatObject.width<350)
+                clocktextsize="6em";
+            if(saatObject.height>300)
+                datetextsize="48px";
+            var HTML="<div class='clock'>";
+            if(saatObject.tarih)
+                HTML+="<div style='font-size:"+datetextsize+"'class='clock_Date' id='Date'></div>";
+            HTML+="<ul class='clock_ul'>"+
+                "<li style='font-size:"+clocktextsize+"' id='hours'></li>"+
+                "<li style='font-size:"+clocktextsize+"' class='clock_point'>:</li>"+
+                "<li style='font-size:"+clocktextsize+"' id='min'></li>";
+            if(saatObject.saniye){
+                HTML+= "<li style='font-size:"+clocktextsize+"' class='clock_point'>:</li>"+
+                    "<li style='font-size:"+clocktextsize+"' id='sec'></li>";
+            }
+            "</ul> </div> ";
+            saat.innerHTML=HTML;
+            var monthNames = [ "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık" ];
+            var dayNames= ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"]
+            // Create a newDate() object
+            var newDate = new Date();
+// Extract the current date from Date object
+            newDate.setDate(newDate.getDate());
+// Output the day, date, month and year
+            $('#Date').html(newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + dayNames[newDate.getDay()] + " " + newDate.getFullYear());
+
+        }
+        function videoIcerikAyarla(videoObject) {
+            console.log("deneme");
+            var video=document.createElement('div');
+            video.style.width=(videoObject.width*2)+'px';
+            video.style.height=(videoObject.height*2)+'px';
+            video.style.transform="translate(" + (videoObject.konumX * 2) + "px, " + (videoObject.konumY* 2) + "px)";
+            video.style.position="absolute";
+            video.id=videoObject.id;
+            if(videoObject.src!=null)
+                var value=youtubeURLAyikla(videoObject.src);
+            value="https://www.youtube.com/embed/"+value+"?autoplay=1&loop=1&controls=0&playlist="+value+"&showinfo=0&rel=0"; //"
+            //video="https://www.youtube.com/embed/"+video+"?autoplay=0&enablejsapi=1&controls=0&showinfo=0&rel=0";
+            var videoonizleme=document.getElementById("youtube-onizleme");
+            var iframe=document.createElement('iframe');
+            iframe.style.width="100%";
+            iframe.style.height="100%";
+            iframe.src=value;
+            iframe.style.border="0";
+            video.appendChild(iframe);
+            container.appendChild(video);
+        }
+        function resimIcerikAyarla(resimObject)
+        {
+            console.log(resimObject);
+            var resim = document.createElement('img');
+            resim.id = resimObject.id;
+            if(resimObject.base64code==""){
+                console.log("boş");
+                resim.style.backgroundColor="green";
+            }
+            else{
+                resim.src = resimObject.base64code;
+            }
+            resim.style.width = (resimObject.width*2)+'px';
+            resim.style.height = (resimObject.height*2)+'px';
+            resim.style.position = "absolute";
+            resim.style.top = "0px";
+            resim.style.left = "0px";
+            resim.style.margin = "0px";
+            resim.style.transform = "translate(" + (((resimObject.konumX)+480) * 2) + "px, " + (((resimObject.konumY)) * 2) + "px)";
+            container.appendChild(resim);
+
+        }
+        function youtubeUrlVideoUzunlugu(value) {
+            var videosuresi=0;
+            var durationstr;
+            jQuery.ajax({
+                url:"https://www.googleapis.com/youtube/v3/videos?id="+value+"&part=contentDetails&key=AIzaSyCt80jjHwJ7ZMZ0JiEJDoiCi4c_ucVUy8k",
+                dataType:"json",
+                type:"GET",
+                async:false,
+                cache:false,
+                success : function (result) {
+                    durationstr=result.items[0].contentDetails.duration;
+                    durationstr=durationstr.split("PT")[1];
+                    if(durationstr.includes("H"))
+                    {
+                        videosuresi+=parseInt(durationstr.split("H")[0])*3600;
+                        durationstr=durationstr.split("H")[1];
+                    }
+                    if(durationstr.includes("M"))
+                    {
+                        videosuresi+=parseInt(durationstr.split("M")[0])*60;
+                        durationstr=durationstr.split("M")[1];
+                    }
+                    if(durationstr.includes("S"))
+                    {
+                        videosuresi+=parseInt(durationstr.split("S")[0]);
+                        durationstr=durationstr.split("S")[1];
+                    }
+                }
+
+            });
+            return videosuresi;
+        }
+        function slaytDivIcerikAyarla(sliderarray) {
+            console.log(sliderarray);
+            for(var i=0;i<sliderarray.length;i++) {
+                var slayt = document.createElement('div');
+                slayt.style.width = (sliderarray[i].width * 2) + 'px';
+                slayt.style.height = (sliderarray[i].height * 2) + 'px';
+                // slayt.textContent = "Slaytı düzenlemek için Çift Tıklayın..!!";
+                //slayt.setAttribute('data-x', "350");
+                // slayt.setAttribute('data-y', "111");
+                slayt.style.transform = "translate(" + (sliderarray[i].konumX * 2) + "px, " + (sliderarray[i].konumY * 2) + "px)";
+                slayt.style.position = "absolute";
+
+                console.log(slayt.style.transform);
+                slayt.id = sliderarray[i].id;
+                container.appendChild(slayt);
+                var slaytdiziuzunluk = sliderarray[i].slaytdizisi.length;
+                for (var k = 0; k < slaytdiziuzunluk; k++) {
+                    if(sliderarray[i].slaytdizisi[k].id.split("-")[0]=="resim"){
+                        var resim = document.createElement('img');
+                        resim.id = sliderarray[i].slaytdizisi[k].id;
+                        //   resim.style.backgroundColor=slaytNesnesi.slaytdizisi[k].backgroundColor;
+                        resim.src = sliderarray[i].slaytdizisi[k].base64code;
+                        resim.style.width = "100%";
+                        resim.style.height = "100%";
+                        resim.style.position = "absolute";
+                        resim.style.top = "0px";
+                        resim.style.left = "0px";
+                        resim.style.margin = "0px";
+                        resim.style.display = "none";
+                        slayt.appendChild(resim);
+                    }
+                    else if(sliderarray[i].slaytdizisi[k].id.split("-")[0]=="video")
+                    {
+
+                        var video=youtubeURLAyikla(sliderarray[i].slaytdizisi[k].src);
+                        console.log(video);
+                        console.log(sliderarray[i].slaytdizisi[k].src);
+                        sliderarray[i].slaytdizisi[k].gecis_suresi=(youtubeUrlVideoUzunlugu(video));
+                        console.log(sliderarray[i].slaytdizisi[k].gecis_suresi);
+                        video="https://www.youtube.com/embed/"+video+"?autoplay=0&enablejsapi=1&controls=0&showinfo=0&rel=0";
+                        console.log(video);
+
+
+                        var videodiv=document.createElement('div');
+                        videodiv.style.width="100%";
+                        videodiv.style.height="100%";
+                        videodiv.style.position="absolute";
+                        videodiv.style.display="none";
+                        videodiv.id=sliderarray[i].slaytdizisi[k].id;
+                        var iframe=document.createElement('iframe');
+                        iframe.style.width="100%";
+                        iframe.style.height="100%";
+                        iframe.src=video;
+                        iframe.id=sliderarray[i].slaytdizisi[k].id+"iframe";
+
+                        videodiv.appendChild(iframe);
+                        slayt.appendChild(videodiv);
+
+
+                    }
+                    else if(sliderarray[i].slaytdizisi[k].id.split("-")[0]=="text")
+                    {
+                        console.log("deneme");
+                        var text=document.createElement('div');
+                        text.id=sliderarray[i].slaytdizisi[k].id;
+
+                        text.innerHTML=sliderarray[i].slaytdizisi[k].texticerik;
+                        text.style.top="0px";
+                        text.style.left="0px";
+                        text.style.width="100%";
+                        text.style.height="100%";
+                        text.style.margin="0px";
+                        text.style.overflow="hidden";
+                        text.style.display = "none";
+                        text.contentEditable="true";
+                        text.style.position="absolute";
+                        slayt.appendChild(text);
+                        textSizeAyarla(text);
+                    }
+                }
+            }
+
+
+
+
+
+            for (var j = 0; j < sliderarray.length; j++) {
+                sliderarray[j].currenttime = 0;
+                sliderarray[j].elementsirasi = 0;
+
+            }
+
+            //slidearray 0.index i want in loop all slides up
+
+
+            var myFunction = function() {
+                // 	countArray.forEach(function(countu){
+                //  countu.currenttime++;
+                //  console.log(countu.currenttime);
+                //   });
+
+                sliderarray.forEach(function(slayt) {
+
+                    slayt.currenttime++;
+                    console.log(slayt.elementsirasi);
+                    console.log(slayt.currenttime);
+                    if (slayt.elementsirasi == 0) {
+                        $('#' + slayt.slaytdizisi[0].id).fadeIn();
+                        console.log(slayt);
+                        if(slayt.slaytdizisi[0].id.split("-")[0]=="video")
+                        {
+
+                            var iframe=document.getElementById(slayt.slaytdizisi[0].id+"iframe").contentWindow;
+                            iframe.postMessage('{"event":"command","func":"playVideo","args":""}','*');
+                        }
+
+
+
+                        slayt.elementsirasi++;
+
+                    } else if (slayt.elementsirasi == slayt.slaytdizisi.length) {
+                        console.log(slayt.elementsirasi+"::::"+slayt.slaytdizisi.length);
+                        if (slayt.currenttime == slayt.slaytdizisi[slayt.elementsirasi - 1].gecis_suresi) {
+                            $('#' + slayt.slaytdizisi[slayt.elementsirasi - 1].id).fadeOut();
+                            $('#' + slayt.slaytdizisi[0].id).fadeIn();
+                            if(slayt.slaytdizisi[0].id.split("-")[0]=="video")
+                            {
+
+                                var iframe=document.getElementById(slayt.slaytdizisi[0].id+"iframe").contentWindow;
+                                iframe.postMessage('{"event":"command","func":"playVideo","args":""}','*');
+                            }
+                            slayt.elementsirasi = 1;
+                            slayt.currenttime = 0;
+                        }
+                    } else {
+                        console.log(slayt.slaytdizisi[slayt.elementsirasi - 1].gecis_suresi);
+                        //Eğer slaytın zamanı önceki elementin zamanıyla eşitse bir sonraki elemente geç.
+                        if (slayt.currenttime == slayt.slaytdizisi[slayt.elementsirasi - 1].gecis_suresi) {
+                            console.log("asdasd:"+slayt.elementsirasi);
+                            if(slayt.slaytdizisi[slayt.elementsirasi].id.split("-")[0]=="video")
+                            {
+
+                                var iframe=document.getElementById(slayt.slaytdizisi[slayt.elementsirasi].id+"iframe").contentWindow;
+                                iframe.postMessage('{"event":"command","func":"playVideo","args":""}','*');
+                            }
+                            $('#' + slayt.slaytdizisi[slayt.elementsirasi - 1].id).fadeOut();
+                            $('#' + slayt.slaytdizisi[slayt.elementsirasi].id).fadeIn();
+                            slayt.elementsirasi++;
+                            slayt.currenttime = 0;
+                        }
+                    }
+
+
+                });
+                timeout = setTimeout(myFunction, 1000);
+
+            };
+            var timeout = setTimeout(myFunction, 5000);
+
+
+
+
+
+//            console.log(slaytcounter);
+//
+//            window['counter'+slaytcounter]=0;
+//            window['gecissuresi'+slaytcounter]=10;
+//            window['gecici'+slaytcounter];
+//            console.log(myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]]);
+
+
+
+//            /******/
+//           window['fonksiyon'+slaytcounter] =  function(){
+//                window['uzunluk'+slaytcounter]=myArray[slaytcounter].slaytdizisi.length;
+////                console.log(  window['uzunluk'+slaytcounter]);
+////                console.log(  window['counter'+slaytcounter]);
+//                if(window['counter'+slaytcounter]==0){
+//                    $('#'+myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]].id).fadeIn();
+//                    window['gecissuresi'+slaytcounter]=myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]].gecis_suresi*1000;
+//                    window['counter'+slaytcounter]++;
+//                    console.log("ilk");
+//                }
+//                else if(window['counter'+slaytcounter]==window['uzunluk'+slaytcounter])
+//                {console.log("son");
+//             //   console.log(myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]].id);
+//
+//                    $('#'+myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]-1].id).fadeOut();
+//                    window['counter'+slaytcounter]=0;
+//                   // $('#'+myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]-1].id).fadeIn();
+//                    window['gecissuresi'+slaytcounter]=0;
+//                }
+//                else
+//                {
+//                    console.log(window['counter'+slaytcounter]+"orta");
+//                    $('#'+myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]-1].id).fadeOut();
+//                    $('#'+myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]].id).fadeIn();
+//
+//                    window['gecissuresi'+slaytcounter]=myArray[slaytcounter].slaytdizisi[window['counter'+slaytcounter]].gecis_suresi*1000;
+//                    window['counter'+slaytcounter]++;
+//                }
+//
+//               console.log(window['timeout'+slaytcounter]);
+//               window['timeout'+slaytcounter] = setTimeout(window['fonksiyon'+slaytcounter], window['gecissuresi'+slaytcounter]);
+//
+//            };
+//            window['timeout'+slaytcounter] = setTimeout(window['fonksiyon'+slaytcounter], window['gecissuresi'+slaytcounter]);
+
+        }
+        function youtubeURLAyikla(value) {
+            return value.split("?")[1].split("=")[1];
+        }
+        function textIcerikAyarla(textNesnesi) {
+            var text=document.createElement('div');
+            text.id=textNesnesi.id;
+            textNesnesi.height+='px';
+            console.log(textNesnesi.height);
+            textNesnesi.width+='px';
+            console.log(textNesnesi.width);
+            console.log(textNesnesi);
+            var abc=textNesnesi.height.substring(-2,textNesnesi.height.substring.length+1);
+
+            text.style.height=(abc*2)+'px';
+            abc=textNesnesi.width.substring(-2,textNesnesi.width.substring.length+1);
+            text.style.width=(abc*2)+'px';
+
+            text.innerHTML=textNesnesi.texticerik;
+            text.style.transform = "translate("+((textNesnesi.konumX)*2)+"px, "+(textNesnesi.konumY*2)+"px)";
+            text.style.top="0px";
+            text.style.left="0px";
+            text.style.margin="0px";
+            text.style.overflow="hidden";
+            text.contentEditable="true";
+            text.style.position="absolute";
+            container.appendChild(text);
+            console.log(textNesnesi.id);
+            textSizeAyarla(text);
+
+
+
+        }
+
+        function textSizeAyarla(id)
+        {
+            var sonelement;
+
+            if(id!=null)
+                if (id.hasChildNodes()) {
+                    $(id).children().css('font-size', function(i, current){
+                        sonelement=$(this)[0];
+                        textSizeAyarla(sonelement);
+                        if($(this).attr("style"))
+                        {
+                            if($(this).attr("style").indexOf("font-size") != -1){
+                                //console.log('New font size for ' + $(this).text() + ' is ' + parseFloat(current) * 2);
+                                sonelement=$(this)[0];
+
+                                return parseFloat(current) * 2;
+                            }
+
+                        }
+
+
+                    });
+
+                }
+
+        }
+
+
+
+
+
+        /*
+
+
+         if (id.hasChildNodes()) {
+
+         $(id).children().each(function(childElement) {
+
+         if($(this).attr("style"))
+         {
+         if($(this).attr("style").indexOf("font-size")){
+         $(this).css('font-size', parseInt($(this).css('font-size')) * 2);
+
+         }
+         }
+
+         textSizeAyarla(this);
+
+
+
+         console.log('New font size for ' + $(this).text() + ' is ' + $(this).css('font-size'));
+         });
+         }
+
+         */
+    }
+</script>
+
+<div id="container">
+
+</div>
+
+</body>
+
+</html>
