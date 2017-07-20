@@ -1339,7 +1339,12 @@
                 alert("Eklenecek olan içeriği seçiniz..!!");
             }
         }
-
+	
+	function Jsonoutput()
+	{
+		console.log(JSON.stringify(ekranDizisi));
+	}    
+	    
         function youtubeUrlOnizleme(durum,deger) {
             var value;
             if(durum==0)
@@ -2177,7 +2182,7 @@
 
             <a id="önizleme" onclick="EkranOnizleme()" class="action-button shadow animate red"  >Önizleme</a>
             <a id="tasarımayarlari" onclick="tasarimAyarlariModal()" class="action-button shadow animate red"  >Tasarım Ayarları</a>
-          
+           <a id="Jsonoutput" onclick="Jsonoutput()" class="action-button shadow animate red"  >KONSOLE JSON ÇIKTISI</a>
           
         </div>
     </div>
