@@ -90,6 +90,7 @@ Resim, saat ve arkaplan işlemlerinden sonra oluşan önizleme
 *Açılan ekranda sağ taraftan slaytın içeriğine eklenilecek olan elementler seçilir.
 *Video,resim, yazı farklı elementleride bir arada kullanabilirsiniz. 
 *Geçiş süreleri ayarlanır. Video için, YouTube'dan apisinden çekilen video süresi otomatik verilir. Bunun için önizleme sayfasında yukarıda video elementi için belirtilen YouTube Key'i girmeyi unutmayınız.
+
 ![Slayt](http://i.picasion.com/pic86/fb2736e1e0d26acb2df3a860b2e1fd8a.gif)
 
 
