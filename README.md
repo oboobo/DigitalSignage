@@ -5,7 +5,8 @@ Digital Signage projesinin türkçe open source kodlarla yazılmış hali..
 
   - Kendine özgü editör!!
   - Slayt, resim, saat, video ve yazı elementleri
- 
+  - Kısa bir süre için sadece 1920px 1080px olarak önizleme alınıyor.
+  - Tasarım ekranı ise 960px 540px.
 
 
 ### Teknolojiler
