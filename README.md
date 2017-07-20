@@ -20,10 +20,19 @@ Ve tabiki de ücretsiz olarak paylaşmak için GitHub.
 
 ### Kullanımı
 
-Herhangi bir kuruluma ihtiyaç yoktur.
 
+Bütün proje dosyalarını indiriniz.Ardından
 "tasarim.html" sayfasını tarayıcınızda açmanız yeterlidir.
  
+ Ancak Önizleme Yaparken eğer YouTube video url eklediyseniz, bunun için Api Key gereklidir.
+ > **Note:** "onizleme.html" sayfasında yer alan "youtubeUrlVideoUzunlugu()" fonksiyonunda key kısmına Google'dan youtube apisi için kendi key'inizi girmeyi unutmayın. [Youtube Api Key Alma](https://developers.google.com/youtube/v3/getting-started)  
+```sh
+  function youtubeUrlVideoUzunlugu(value) {
+            var videosuresi=0;
+            var durationstr;
+            jQuery.ajax({
+                url:"https://www.googleapis.com/youtube/v3/videos?id="+value+"&part=contentDetails&key=",
+```
  Tasarım sayfasını açtığınızda şöyle bir görüntü ekrana gelmektedir.
  ![Ana Ekran Görüntüsü](https://i.hizliresim.com/nWbD65.png)
 
