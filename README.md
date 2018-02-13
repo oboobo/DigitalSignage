@@ -15,7 +15,7 @@ Projede kullanılan temel teknolojiler:
 
 * [interactJs] - Elementlerin sürükle bırak, boyutlandırma işlemleri ve daha fazlası!
 * [Twitter Bootstrap] - Muhteşem arayüz tasarımı,
-* [jQuery] - Bildiğiniz gibi :)
+* [jQuery]
 
 Ve tabiki de ücretsiz olarak paylaşmak için GitHub.
 
